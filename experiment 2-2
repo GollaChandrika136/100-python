@@ -1,0 +1,82 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOJ2j8/NB29xewLLa15pyZf",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/GollaChandrika136/100-python/blob/main/experiment%202-2\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import nltk\n",
+        "from nltk.corpus import stopwords\n",
+        "from nltk.tokenize import word_tokenize\n",
+        "\n",
+        "# Download stopwords if not available\n",
+        "nltk.download('punkt')\n",
+        "nltk.download('stopwords')\n",
+        "\n",
+        "# Sample Input\n",
+        "sentence = \"There is a change in a medium.\"\n",
+        "\n",
+        "# Tokenize\n",
+        "words = word_tokenize(sentence.lower())\n",
+        "\n",
+        "# Remove stopwords (connectors + prepositions)\n",
+        "filtered_words = [word for word in words if word not in stopwords.words('english')]\n",
+        "\n",
+        "print(\"Before:\", sentence)\n",
+        "print(\"After:\", filtered_words)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "rdBFkC2lEkzy",
+        "outputId": "e37d99fc-56e8-4a93-eace-ec22cdc631e9"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package punkt to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping tokenizers/punkt.zip.\n",
+            "[nltk_data] Downloading package stopwords to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping corpora/stopwords.zip.\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Before: There is a change in a medium.\n",
+            "After: ['change', 'medium', '.']\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
