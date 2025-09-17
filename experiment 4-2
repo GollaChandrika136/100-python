@@ -1,0 +1,79 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPdYp+kNJRchS3KlFav4kl4",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/GollaChandrika136/100-python/blob/main/experiment%204-2\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from sklearn.feature_extraction.text import CountVectorizer\n",
+        "from sklearn.decomposition import LatentDirichletAllocation\n",
+        "\n",
+        "# Sample documents\n",
+        "docs = [\n",
+        "    \"AI is transforming healthcare by using deep learning and computer vision.\",\n",
+        "    \"Sports analytics is growing rapidly with the help of machine learning.\",\n",
+        "    \"Natural language processing is useful in chatbots and translation.\",\n",
+        "    \"Computer vision applications include self-driving cars and face recognition.\"\n",
+        "]\n",
+        "\n",
+        "# Convert text to document-term matrix\n",
+        "vectorizer = CountVectorizer(stop_words='english')\n",
+        "X = vectorizer.fit_transform(docs)\n",
+        "\n",
+        "# Apply LDA\n",
+        "lda = LatentDirichletAllocation(n_components=2, random_state=42)\n",
+        "lda.fit(X)\n",
+        "\n",
+        "# Print topics\n",
+        "words = vectorizer.get_feature_names_out()\n",
+        "for i, topic in enumerate(lda.components_):\n",
+        "    print(f\"Topic {i+1}:\")\n",
+        "    print([words[j] for j in topic.argsort()[-5:]])\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "V0dnwXTsGEdW",
+        "outputId": "a6668972-a3d2-4c2d-eca8-978a93e4f1e2"
+      },
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Topic 1:\n",
+            "['driving', 'face', 'recognition', 'vision', 'computer']\n",
+            "Topic 2:\n",
+            "['growing', 'help', 'sports', 'rapidly', 'learning']\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
