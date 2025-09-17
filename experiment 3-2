@@ -1,0 +1,76 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMwZLPkGhdQ21af52+EDR2o",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/GollaChandrika136/100-python/blob/main/experiment%203-2\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import nltk\n",
+        "from nltk import pos_tag, word_tokenize, RegexpParser\n",
+        "\n",
+        "# Sample Input\n",
+        "sentence = \"The little mouse ate the fresh cheeze\"\n",
+        "\n",
+        "# Tokenize and POS Tag\n",
+        "words = word_tokenize(sentence)\n",
+        "tagged = pos_tag(words)\n",
+        "\n",
+        "# Define Grammar Rule\n",
+        "grammar = r\"NP: {<DT>?<JJ>*<NN>}\"\n",
+        "\n",
+        "# Create a chunk parser\n",
+        "parser = RegexpParser(grammar)\n",
+        "\n",
+        "# Parse the sentence\n",
+        "tree = parser.parse(tagged)\n",
+        "\n",
+        "# Print the parse tree instead of drawing\n",
+        "print(tree)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Z7rPFI_wFtPN",
+        "outputId": "9f2191ac-083c-445d-de6d-84d34cb4f3ca"
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "(S\n",
+            "  (NP The/DT little/JJ mouse/NN)\n",
+            "  ate/VB\n",
+            "  (NP the/DT fresh/JJ cheeze/NN))\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
