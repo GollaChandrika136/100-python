@@ -1,0 +1,88 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOK363diYyzZyw7fIth+RTw",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/GollaChandrika136/100-python/blob/main/experiment-2-1\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 3,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Mrl4CZdwDEd0",
+        "outputId": "6c8eac56-9e08-48cc-9881-91e69dc599ae"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package punkt to /root/nltk_data...\n",
+            "[nltk_data]   Package punkt is already up-to-date!\n",
+            "[nltk_data] Downloading package punkt_tab to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping tokenizers/punkt_tab.zip.\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Maximum ; maximum\n",
+            "students ; student\n",
+            "are ; are\n",
+            "Suffering ; suffer\n",
+            "from ; from\n",
+            "Insominia ; insominia\n",
+            ". ; .\n"
+          ]
+        }
+      ],
+      "source": [
+        "import nltk\n",
+        "from nltk.tokenize import word_tokenize\n",
+        "from nltk.stem import PorterStemmer\n",
+        "\n",
+        "# Download the required resources\n",
+        "nltk.download('punkt')\n",
+        "nltk.download('punkt_tab')\n",
+        "\n",
+        "# Sample Input\n",
+        "sentence = \"Maximum students are Suffering from Insominia.\"\n",
+        "\n",
+        "# Initialize stemmer\n",
+        "ps = PorterStemmer()\n",
+        "\n",
+        "# Tokenize the sentence\n",
+        "tokens = word_tokenize(sentence)\n",
+        "\n",
+        "# Display root words\n",
+        "for word in tokens:\n",
+        "    print(f\"{word} ; {ps.stem(word)}\")"
+      ]
+    }
+  ]
+}
