@@ -1,0 +1,102 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyM25wDLjcQQDai6FJx/08/F",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/GollaChandrika136/100-python/blob/main/experiment%207-2\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import nltk\n",
+        "from nltk import PCFG\n",
+        "from nltk.parse import ViterbiParser\n",
+        "\n",
+        "# Define two toy grammars\n",
+        "toy_pcfg1 = PCFG.fromstring(\"\"\"\n",
+        "  S -> NP VP [1.0]\n",
+        "  NP -> Name [0.5] | Det N [0.5]\n",
+        "  VP -> V NP [1.0]\n",
+        "  Name -> 'Jack' [1.0]\n",
+        "  Det -> 'the' [1.0]\n",
+        "  N -> 'cookie' [0.5] | 'sandwich' [0.5]\n",
+        "  V -> 'ate' [1.0]\n",
+        "\"\"\")\n",
+        "\n",
+        "toy_pcfg2 = PCFG.fromstring(\"\"\"\n",
+        "  S -> NP VP [1.0]\n",
+        "  NP -> Name [0.6] | Det N [0.4]\n",
+        "  VP -> V NP [1.0]\n",
+        "  Name -> 'Jack' [1.0]\n",
+        "  Det -> 'the' [1.0]\n",
+        "  N -> 'cookie' [0.7] | 'sandwich' [0.3]\n",
+        "  V -> 'ate' [1.0]\n",
+        "\"\"\")\n",
+        "\n",
+        "# a) Print words and productions in toy_pcfg1\n",
+        "print(\"toy_pcfg1 productions:\")\n",
+        "print(toy_pcfg1.productions())\n",
+        "print(\"Words:\", [p.rhs()[0] for p in toy_pcfg1.productions() if isinstance(p.rhs()[0], str)])\n",
+        "\n",
+        "# b) Print words and productions in toy_pcfg2\n",
+        "print(\"\\ntoy_pcfg2 productions:\")\n",
+        "print(toy_pcfg2.productions())\n",
+        "print(\"Words:\", [p.rhs()[0] for p in toy_pcfg2.productions() if isinstance(p.rhs()[0], str)])\n",
+        "\n",
+        "# c) Parse a sentence using Viterbi Parser\n",
+        "sentence = ['Jack', 'ate', 'the', 'cookie']\n",
+        "parser = ViterbiParser(toy_pcfg1)   # try with toy_pcfg2 also\n",
+        "for tree in parser.parse(sentence):\n",
+        "    print(\"\\nBest Parse Tree:\", tree)\n",
+        "    print(\"Probability:\", tree.prob())\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ncKy4rd7HmY-",
+        "outputId": "3ab3ed70-1bc2-4c67-ee6d-2da666ef13f9"
+      },
+      "execution_count": 16,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "toy_pcfg1 productions:\n",
+            "[S -> NP VP [1.0], NP -> Name [0.5], NP -> Det N [0.5], VP -> V NP [1.0], Name -> 'Jack' [1.0], Det -> 'the' [1.0], N -> 'cookie' [0.5], N -> 'sandwich' [0.5], V -> 'ate' [1.0]]\n",
+            "Words: ['Jack', 'the', 'cookie', 'sandwich', 'ate']\n",
+            "\n",
+            "toy_pcfg2 productions:\n",
+            "[S -> NP VP [1.0], NP -> Name [0.6], NP -> Det N [0.4], VP -> V NP [1.0], Name -> 'Jack' [1.0], Det -> 'the' [1.0], N -> 'cookie' [0.7], N -> 'sandwich' [0.3], V -> 'ate' [1.0]]\n",
+            "Words: ['Jack', 'the', 'cookie', 'sandwich', 'ate']\n",
+            "\n",
+            "Best Parse Tree: (S (NP (Name Jack)) (VP (V ate) (NP (Det the) (N cookie)))) (p=0.125)\n",
+            "Probability: 0.125\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
