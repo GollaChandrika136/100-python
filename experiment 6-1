@@ -1,0 +1,114 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyM4pFo9Gj4uGU9E3FxViWw4",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/GollaChandrika136/100-python/blob/main/experiment%206-1\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from nltk import CFG, ChartParser\n",
+        "\n",
+        "# Define the grammar (CNF-like for CKY)\n",
+        "grammar = CFG.fromstring(\"\"\"\n",
+        "  S -> NP VP\n",
+        "  PP -> P NP\n",
+        "  NP -> Det N\n",
+        "  NP -> Det N PP\n",
+        "  NP -> 'I'\n",
+        "  VP -> V NP\n",
+        "  VP -> VP PP\n",
+        "  Det -> 'an' | 'my'\n",
+        "  N -> 'elephant' | 'pajamas'\n",
+        "  V -> 'shot'\n",
+        "  P -> 'in'\n",
+        "\"\"\")\n",
+        "\n",
+        "# Create parser\n",
+        "parser = ChartParser(grammar)\n",
+        "\n",
+        "# Input sentence\n",
+        "sentence = ['I', 'shot', 'an', 'elephant', 'in', 'my', 'pajamas']\n",
+        "\n",
+        "# Generate parse trees\n",
+        "for tree in parser.parse(sentence):\n",
+        "    print(tree)\n",
+        "    tree.pretty_print()\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Kfu9JeqpG5xp",
+        "outputId": "eb1d7748-b85a-4954-8ac5-ab60b62117c3"
+      },
+      "execution_count": 14,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "(S\n",
+            "  (NP I)\n",
+            "  (VP\n",
+            "    (VP (V shot) (NP (Det an) (N elephant)))\n",
+            "    (PP (P in) (NP (Det my) (N pajamas)))))\n",
+            "     S                                       \n",
+            "  ___|______________                          \n",
+            " |                  VP                       \n",
+            " |         _________|__________               \n",
+            " |        VP                   PP            \n",
+            " |    ____|___              ___|___           \n",
+            " |   |        NP           |       NP        \n",
+            " |   |     ___|_____       |    ___|_____     \n",
+            " NP  V   Det        N      P  Det        N   \n",
+            " |   |    |         |      |   |         |    \n",
+            " I  shot  an     elephant  in  my     pajamas\n",
+            "\n",
+            "(S\n",
+            "  (NP I)\n",
+            "  (VP\n",
+            "    (V shot)\n",
+            "    (NP (Det an) (N elephant) (PP (P in) (NP (Det my) (N pajamas))))))\n",
+            "     S                                   \n",
+            "  ___|__________                          \n",
+            " |              VP                       \n",
+            " |    __________|______                   \n",
+            " |   |                 NP                \n",
+            " |   |     ____________|___               \n",
+            " |   |    |     |          PP            \n",
+            " |   |    |     |       ___|___           \n",
+            " |   |    |     |      |       NP        \n",
+            " |   |    |     |      |    ___|_____     \n",
+            " NP  V   Det    N      P  Det        N   \n",
+            " |   |    |     |      |   |         |    \n",
+            " I  shot  an elephant  in  my     pajamas\n",
+            "\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
