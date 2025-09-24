@@ -1,0 +1,144 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPhKk0XFgFs2Qw6NO/Sp8Jo",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/GollaChandrika136/100-python/blob/main/experiment%20-8\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import nltk\n",
+        "from nltk import ConditionalFreqDist, bigrams\n",
+        "\n",
+        "# --------------------------\n",
+        "# Sample text for \"Brown corpus\" style\n",
+        "brown_sample = {\n",
+        "    'fiction': \"Once upon a time there was a king who loved his kingdom\".split(),\n",
+        "    'lore': \"In ancient times, people told stories of gods and heroes\".split()\n",
+        "}\n",
+        "\n",
+        "# Build CFD for sample genres\n",
+        "cfd_brown = ConditionalFreqDist(\n",
+        "    (genre, word)\n",
+        "    for genre, words in brown_sample.items()\n",
+        "    for word in words\n",
+        ")\n",
+        "\n",
+        "# Print most common words in each genre\n",
+        "for genre in brown_sample:\n",
+        "    print(f\"\\nMost common words in {genre}:\")\n",
+        "    print(cfd_brown[genre].most_common())\n",
+        "\n",
+        "# --------------------------\n",
+        "# Sample text for UDHR style corpus\n",
+        "udhr_sample = {\n",
+        "    'Chickasaw': \"I am a person and I have rights\".split(),\n",
+        "    'English': \"All humans are born free and equal in dignity\".split(),\n",
+        "    'German_Deutsch': \"Alle Menschen sind frei und gleich an Würde geboren\".split()\n",
+        "}\n",
+        "\n",
+        "target_freqs = [1, 2]  # Use small numbers since the sample is small\n",
+        "\n",
+        "cfd_udhr = ConditionalFreqDist(\n",
+        "    (lang, word)\n",
+        "    for lang, words in udhr_sample.items()\n",
+        "    for word in words\n",
+        ")\n",
+        "\n",
+        "# Tabulate frequency counts\n",
+        "print(\"\\nWord frequency counts for sample UDHR corpus:\")\n",
+        "for lang in udhr_sample:\n",
+        "    print(f\"\\nLanguage: {lang}\")\n",
+        "    for freq in target_freqs:\n",
+        "        count = sum(1 for w in cfd_udhr[lang] if cfd_udhr[lang][w] == freq)\n",
+        "        print(f\"Words with frequency {freq}: {count}\")\n",
+        "\n",
+        "# --------------------------\n",
+        "# Sample text for bigrams generation\n",
+        "sample_text = \"darkness falls across the land the wind is howling like the sea\".split()\n",
+        "bi_grams = list(bigrams(sample_text))\n",
+        "print(\"\\nBigrams from sample text:\")\n",
+        "print(bi_grams)\n",
+        "\n",
+        "# Generate 15-word sentence using bigram CFD\n",
+        "cfd_bi = ConditionalFreqDist(bigrams(sample_text))\n",
+        "word = \"darkness\"\n",
+        "sentence = [word]\n",
+        "for i in range(14):\n",
+        "    if word in cfd_bi:\n",
+        "        next_word = list(cfd_bi[word].keys())[0]  # pick the first possible next word\n",
+        "        sentence.append(next_word)\n",
+        "        word = next_word\n",
+        "    else:\n",
+        "        break\n",
+        "\n",
+        "print(\"\\nGenerated 15-word sentence using bigram CFD:\")\n",
+        "print(\" \".join(sentence))\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "qz_-H_ZjIOAB",
+        "outputId": "6d3913a6-bb6b-4759-f9aa-f0da92be5cc5"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "Most common words in fiction:\n",
+            "[('a', 2), ('Once', 1), ('upon', 1), ('time', 1), ('there', 1), ('was', 1), ('king', 1), ('who', 1), ('loved', 1), ('his', 1), ('kingdom', 1)]\n",
+            "\n",
+            "Most common words in lore:\n",
+            "[('In', 1), ('ancient', 1), ('times,', 1), ('people', 1), ('told', 1), ('stories', 1), ('of', 1), ('gods', 1), ('and', 1), ('heroes', 1)]\n",
+            "\n",
+            "Word frequency counts for sample UDHR corpus:\n",
+            "\n",
+            "Language: Chickasaw\n",
+            "Words with frequency 1: 6\n",
+            "Words with frequency 2: 1\n",
+            "\n",
+            "Language: English\n",
+            "Words with frequency 1: 9\n",
+            "Words with frequency 2: 0\n",
+            "\n",
+            "Language: German_Deutsch\n",
+            "Words with frequency 1: 9\n",
+            "Words with frequency 2: 0\n",
+            "\n",
+            "Bigrams from sample text:\n",
+            "[('darkness', 'falls'), ('falls', 'across'), ('across', 'the'), ('the', 'land'), ('land', 'the'), ('the', 'wind'), ('wind', 'is'), ('is', 'howling'), ('howling', 'like'), ('like', 'the'), ('the', 'sea')]\n",
+            "\n",
+            "Generated 15-word sentence using bigram CFD:\n",
+            "darkness falls across the land the land the land the land the land the land\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
