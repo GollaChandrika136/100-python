@@ -1,0 +1,84 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNljjn5Q7MzXIxY/hAo6jh+",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/GollaChandrika136/100-python/blob/main/lab%20exam%20answer\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import spacy\n",
+        "\n",
+        "# Load English model\n",
+        "nlp = spacy.load(\"en_core_web_sm\")\n",
+        "\n",
+        "# Sample Input Paragraph\n",
+        "paragraph = \"Gowtham is an English lecturer who planned to conduct an exam for all the students in the college.\"\n",
+        "\n",
+        "# Process the paragraph\n",
+        "doc = nlp(paragraph)\n",
+        "\n",
+        "# Remove stop words and punctuation\n",
+        "filtered_words = [token.text for token in doc if not token.is_stop and token.is_alpha]\n",
+        "\n",
+        "# Identify Parts of Speech\n",
+        "pos_tags = [(token.text, token.pos_) for token in doc if not token.is_stop and token.is_alpha]\n",
+        "\n",
+        "# Output\n",
+        "print(\"Filtered Words:\", filtered_words)\n",
+        "print(\"\\nParts of Speech:\")\n",
+        "for word, pos in pos_tags:\n",
+        "    print(f\"{word} → {pos}\")\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "r2shCU6YKYaz",
+        "outputId": "7589153b-d6c5-448a-ef58-2d5a089ae54e"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Filtered Words: ['Gowtham', 'English', 'lecturer', 'planned', 'conduct', 'exam', 'students', 'college']\n",
+            "\n",
+            "Parts of Speech:\n",
+            "Gowtham → PROPN\n",
+            "English → ADJ\n",
+            "lecturer → NOUN\n",
+            "planned → VERB\n",
+            "conduct → VERB\n",
+            "exam → NOUN\n",
+            "students → NOUN\n",
+            "college → NOUN\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
